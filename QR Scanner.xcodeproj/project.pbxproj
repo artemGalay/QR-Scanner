@@ -9,7 +9,7 @@
 /* Begin PBXBuildFile section */
 		D936446F29B6796B00F7CD41 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D936446E29B6796B00F7CD41 /* AppDelegate.swift */; };
 		D936447129B6796B00F7CD41 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = D936447029B6796B00F7CD41 /* SceneDelegate.swift */; };
-		D936447329B6796B00F7CD41 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D936447229B6796B00F7CD41 /* ViewController.swift */; };
+		D936447329B6796B00F7CD41 /* QrScannerViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = D936447229B6796B00F7CD41 /* QrScannerViewController.swift */; };
 		D936447829B6796D00F7CD41 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = D936447729B6796D00F7CD41 /* Assets.xcassets */; };
 		D936447B29B6796D00F7CD41 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = D936447929B6796D00F7CD41 /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
@@ -18,7 +18,7 @@
 		D936446B29B6796B00F7CD41 /* QR Scanner.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "QR Scanner.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		D936446E29B6796B00F7CD41 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		D936447029B6796B00F7CD41 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
-		D936447229B6796B00F7CD41 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		D936447229B6796B00F7CD41 /* QrScannerViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = QrScannerViewController.swift; sourceTree = "<group>"; };
 		D936447729B6796D00F7CD41 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
 		D936447A29B6796D00F7CD41 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		D936447C29B6796D00F7CD41 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
@@ -82,7 +82,7 @@
 			isa = PBXGroup;
 			children = (
 				D936448529B6872100F7CD41 /* App */,
-				D936447229B6796B00F7CD41 /* ViewController.swift */,
+				D955366729B7A4BF00E0BC25 /* Modules */,
 			);
 			path = Sources;
 			sourceTree = "<group>";
@@ -94,6 +94,22 @@
 				D936447029B6796B00F7CD41 /* SceneDelegate.swift */,
 			);
 			path = App;
+			sourceTree = "<group>";
+		};
+		D955366729B7A4BF00E0BC25 /* Modules */ = {
+			isa = PBXGroup;
+			children = (
+				D955366829B7A4CD00E0BC25 /* View */,
+			);
+			path = Modules;
+			sourceTree = "<group>";
+		};
+		D955366829B7A4CD00E0BC25 /* View */ = {
+			isa = PBXGroup;
+			children = (
+				D936447229B6796B00F7CD41 /* QrScannerViewController.swift */,
+			);
+			path = View;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -166,7 +182,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				D936447329B6796B00F7CD41 /* ViewController.swift in Sources */,
+				D936447329B6796B00F7CD41 /* QrScannerViewController.swift in Sources */,
 				D936446F29B6796B00F7CD41 /* AppDelegate.swift in Sources */,
 				D936447129B6796B00F7CD41 /* SceneDelegate.swift in Sources */,
 			);
