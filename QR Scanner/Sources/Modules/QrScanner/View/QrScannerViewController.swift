@@ -19,6 +19,13 @@ final class QrScannerViewController: UIViewController {
         setupVideo()
     }
 
+    override func viewWillAppear(_ animated: Bool) {
+        super.viewWillAppear(animated)
+        DispatchQueue.global(qos: .background).async { [weak self] in
+            self?.session.startRunning()
+        }
+    }
+
     func setupVideo() {
 
         // Настроим устройство
@@ -61,13 +68,15 @@ extension QrScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
                 guard let stringUrl = object.stringValue else { return }
                 print(object.stringValue)
 
-
-                
+                let vc = WebViewController()
+                navigationController?.pushViewController(vc, animated: true)
+                vc.loadRequest(link: stringUrl)
 
 //                DispatchQueue.global(qos: .background).async { [weak self] in
 //                    self?.session.stopRunning()
 //                }
 
             }
+        session.stopRunning()
         }
     }
