@@ -15,7 +15,7 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        let viewController = WebViewController()
+        let viewController = QrScannerViewController()
         let navigationViewController = UINavigationController(rootViewController: viewController)
         window?.rootViewController = navigationViewController
         window?.makeKeyAndVisible()
