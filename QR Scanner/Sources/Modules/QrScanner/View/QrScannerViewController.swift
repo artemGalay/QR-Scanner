@@ -72,11 +72,6 @@ extension QrScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
                 navigationController?.pushViewController(vc, animated: true)
                 vc.url = stringUrl
                 vc.loadRequest()
-
-//                DispatchQueue.global(qos: .background).async { [weak self] in
-//                    self?.session.stopRunning()
-//                }
-
             }
         session.stopRunning()
         }
