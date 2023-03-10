@@ -41,9 +41,15 @@ final class WebViewController: UIViewController {
 
     private func configureUI() {
         view.backgroundColor = .white
-        webView.backgroundColor = .white
-        let shareButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"), style: .plain, target: self, action: #selector(shareInfo))
-        let backButton = UIBarButtonItem(title: "Back", style: .plain, target: self, action: #selector(tappedBackButton))
+
+        let shareButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"),
+                                          style: .plain,
+                                          target: self,
+                                          action: #selector(shareInfo))
+        let backButton = UIBarButtonItem(title: "Back",
+                                         style: .plain,
+                                         target: self,
+                                         action: #selector(tappedBackButton))
 
         navigationItem.setHidesBackButton(true, animated: false)
         navigationItem.leftBarButtonItem = backButton
@@ -53,9 +59,19 @@ final class WebViewController: UIViewController {
         progressView.trackTintColor = .white
         progressView.translatesAutoresizingMaskIntoConstraints = false
 
+        webView.backgroundColor = .white
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
         webView.navigationDelegate = self
         webView.translatesAutoresizingMaskIntoConstraints = false
+    }
+
+    override func observeValue(forKeyPath keyPath: String?,
+                               of object: Any?,
+                               change: [NSKeyValueChangeKey : Any]?,
+                               context: UnsafeMutableRawPointer?) {
+        if keyPath == "estimatedProgress" {
+            progressView.progress = Float(webView.estimatedProgress)
+        }
     }
 
     func loadRequest() {
@@ -74,12 +90,10 @@ final class WebViewController: UIViewController {
                     let activityViewController = UIActivityViewController(activityItems: [data], applicationActivities: nil)
                     activityViewController.completionWithItemsHandler = { _, success, _, error in
                         if success {
-                            let alert = UIAlertController(title: "Поздравляем!", message: "Ваш файл успешно загружен", preferredStyle: .alert)
-                            alert.addAction(UIAlertAction(title: "OK", style: .default))
-                            self.present(alert, animated: true, completion: nil)
+                            AlertManager.showAlert(AlertType.successSaved, vc: self)
                         }
                         if error != nil {
-
+                            AlertManager.showAlert(AlertType.errorSaved, vc: self)
                         }
                     }
                     self.present(activityViewController, animated: true, completion: nil)
@@ -97,15 +111,6 @@ final class WebViewController: UIViewController {
 }
 
 extension WebViewController: WKNavigationDelegate {
-
-    override func observeValue(forKeyPath keyPath: String?,
-                               of object: Any?,
-                               change: [NSKeyValueChangeKey : Any]?,
-                               context: UnsafeMutableRawPointer?) {
-        if keyPath == "estimatedProgress" {
-            progressView.progress = Float(webView.estimatedProgress)
-        }
-    }
 
     func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
         progressView.isHidden = false
