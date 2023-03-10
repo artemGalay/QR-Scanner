@@ -66,11 +66,12 @@ extension QrScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
             if object.type == AVMetadataObject.ObjectType.qr {
                 // переход на экран WebView
                 guard let stringUrl = object.stringValue else { return }
-                print(object.stringValue)
+                print(object.stringValue ?? "")
 
                 let vc = WebViewController()
                 navigationController?.pushViewController(vc, animated: true)
-                vc.loadRequest(link: stringUrl)
+                vc.url = stringUrl
+                vc.loadRequest()
 
 //                DispatchQueue.global(qos: .background).async { [weak self] in
 //                    self?.session.stopRunning()
