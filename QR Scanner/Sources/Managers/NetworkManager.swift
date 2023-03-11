@@ -15,7 +15,7 @@ final class NetworkManager {
 
     func fetchData(url: String, completion: @escaping (Result<Data, Error>) -> Void) {
         guard let url = URL(string: url) else {
-            completion(.failure(print("error") as! Error))
+            completion(.failure(NetworkError.badURL))
             return
         }
         URLSession.shared.dataTask(with: url) { data, response, error in
@@ -28,4 +28,8 @@ final class NetworkManager {
             completion(.success(data))
         }.resume()
     }
+}
+
+enum NetworkError: Error {
+    case badURL
 }
