@@ -8,17 +8,23 @@
 import UIKit
 import WebKit
 
-final class WebViewController: UIViewController {
+protocol WebViewProtocol: AnyObject {
+    func loadRequest(request: URLRequest)
+    func configureSaveFiles(data: Any)
+}
 
-    var url = String()
+final class WebViewController: UIViewController, WebViewProtocol {
+
+    var presenter: WebViewPresenterProtocol?
     private let webView = WKWebView()
     private let progressView = UIProgressView(progressViewStyle: .default)
 
     override func viewDidLoad() {
         super.viewDidLoad()
+        configureUI()
         setupHierarchy()
         setupLayout()
-        configureUI()
+        presenter?.loadRequest()
     }
 
     private func setupHierarchy() {
@@ -74,39 +80,34 @@ final class WebViewController: UIViewController {
         }
     }
 
-    func loadRequest() {
-        guard let url = URL(string: url) else { return }
-        let urlRequest = URLRequest(url: url)
-
-        webView.load(urlRequest)
+    func loadRequest(request: URLRequest) {
+        webView.load(request)
     }
 
-    @objc func shareInfo() {
+    func configureSaveFiles(data: Any) {
+        let activityViewController = UIActivityViewController(activityItems: [data], applicationActivities: nil)
+        activityViewController.modalPresentationStyle = .fullScreen
 
-        NetworkManager.shared.fetchData(url: url) { result in
-            switch result {
-            case .success(let data):
-                DispatchQueue.main.async() {
-                    let activityViewController = UIActivityViewController(activityItems: [data], applicationActivities: nil)
-                    activityViewController.completionWithItemsHandler = { _, success, _, error in
-                        if success {
-                            AlertManager.showAlert(AlertType.successSaved, vc: self)
-                        }
-                        if error != nil {
-                            AlertManager.showAlert(AlertType.errorSaved, vc: self)
-                        }
-                    }
-                    self.present(activityViewController, animated: true, completion: nil)
-                }
-
-            case .failure(let error):
-                print(error.localizedDescription)
+        activityViewController.completionWithItemsHandler = { _, success, _, error in
+            if success {
+                AlertManager.showAlert(AlertType.successSaved, viewController: self)
             }
+            if error != nil {
+                AlertManager.showAlert(AlertType.errorSaved, viewController: self)
+            }
+        }
+
+        DispatchQueue.main.async() {
+            self.present(activityViewController, animated: true, completion: nil)
         }
     }
 
-    @objc func tappedBackButton() {
-        navigationController?.popViewController(animated: true)
+    @objc private func shareInfo() {
+        presenter?.share()
+    }
+
+    @objc private func tappedBackButton() {
+        presenter?.closeWebView()
     }
 }
 

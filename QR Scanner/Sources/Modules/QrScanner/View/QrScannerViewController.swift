@@ -10,9 +10,9 @@ import UIKit
 
 final class QrScannerViewController: UIViewController {
 
-    var video = AVCaptureVideoPreviewLayer()
-    // Настроим сессию
-    let session = AVCaptureSession()
+    var presenter: QrScannerPresenter?
+    private var video = AVCaptureVideoPreviewLayer()
+    private let session = AVCaptureSession()
 
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -26,19 +26,16 @@ final class QrScannerViewController: UIViewController {
         }
     }
 
-    func setupVideo() {
-
-        // Настроим устройство
+    private func setupVideo() {
         guard let captureDevice = AVCaptureDevice.default(for: AVMediaType.video) else {
             fatalError("Camera is not found") }
-        // Настроим input
         do {
             let input = try AVCaptureDeviceInput(device: captureDevice)
             session.addInput(input)
         } catch {
             fatalError(error.localizedDescription)
         }
-        // Настроим output
+
         let output = AVCaptureMetadataOutput()
         session.addOutput(output)
 
@@ -63,16 +60,11 @@ extension QrScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
         guard metadataObjects.count > 0 else { return }
 
         guard let object = metadataObjects.first as? AVMetadataMachineReadableCodeObject else { return }
-            if object.type == AVMetadataObject.ObjectType.qr {
-                // переход на экран WebView
-                guard let stringUrl = object.stringValue else { return }
-                print(object.stringValue ?? "")
-
-                let vc = WebViewController()
-                navigationController?.pushViewController(vc, animated: true)
-                vc.url = stringUrl
-                vc.loadRequest()
-            }
-        session.stopRunning()
+        if object.type == AVMetadataObject.ObjectType.qr {
+            guard let stringUrl = object.stringValue else { return }
+            print(object.stringValue ?? "")
+            presenter?.showWebView(link: stringUrl)
         }
+        session.stopRunning()
     }
+}

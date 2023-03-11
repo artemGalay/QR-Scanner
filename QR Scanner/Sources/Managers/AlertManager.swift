@@ -9,10 +9,10 @@ import UIKit
 
 final class AlertManager {
 
-    static func showAlert(_ type: AlertType, vc: UIViewController) {
+    static func showAlert(_ type: AlertType, viewController: UIViewController) {
         let alert = UIAlertController(title: type.title, message: type.message, preferredStyle: .alert)
         alert.addAction(UIAlertAction(title: type.actionText, style: .default))
-        vc.present(alert, animated: true, completion: nil)
+        viewController.present(alert, animated: true, completion: nil)
     }
 }
 

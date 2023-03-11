@@ -15,8 +15,12 @@ class SceneDelegate: UIResponder, UIWindowSceneDelegate {
 
         guard let windowScene = (scene as? UIWindowScene) else { return }
         window = UIWindow(windowScene: windowScene)
-        let viewController = QrScannerViewController()
-        let navigationViewController = UINavigationController(rootViewController: viewController)
+
+        let navigationViewController = UINavigationController()
+        let builder = ModuleBuilder()
+        let router = Router(navigationController: navigationViewController, assemblyBuilder: builder)
+        router.initialViewController()
+
         window?.rootViewController = navigationViewController
         window?.makeKeyAndVisible()
     }
