@@ -7,6 +7,7 @@
 
 import UIKit
 
+// MARK: - RouterProtocol
 protocol RouterProtocol {
     var navigationController: UINavigationController? { get set }
     var assemblyBuilder: BuilderProtocol? { get set }
@@ -16,16 +17,19 @@ protocol RouterProtocol {
     func popToRoot()
 }
 
-class Router: RouterProtocol {
-    var navigationController: UINavigationController?
+final class Router: RouterProtocol {
 
+    // MARK: - Properties
+    var navigationController: UINavigationController?
     var assemblyBuilder: BuilderProtocol?
 
+    //MARK: - Initialization
     init(navigationController: UINavigationController, assemblyBuilder: BuilderProtocol) {
         self.navigationController = navigationController
         self.assemblyBuilder = assemblyBuilder
     }
 
+    // MARK: - Methods
     func initialViewController() {
         if let navigationController = navigationController {
             guard let mainViewController = assemblyBuilder?.createQrScannerModule(router: self) else {

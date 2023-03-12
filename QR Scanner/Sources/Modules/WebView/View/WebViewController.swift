@@ -8,6 +8,7 @@
 import UIKit
 import WebKit
 
+// MARK: - WebViewProtocol
 protocol WebViewProtocol: AnyObject {
     func loadRequest(request: URLRequest)
     func configureSaveFiles(data: Any)
@@ -15,18 +16,22 @@ protocol WebViewProtocol: AnyObject {
 
 final class WebViewController: UIViewController, WebViewProtocol {
 
+    // MARK: - Properties
     var presenter: WebViewPresenterProtocol?
     private let webView = WKWebView()
     private let progressView = UIProgressView(progressViewStyle: .default)
 
+    // MARK: - Lifecycle
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
+        setupNavigationBar()
         setupHierarchy()
         setupLayout()
         presenter?.loadRequest()
     }
 
+    // MARK: - Methods
     private func setupHierarchy() {
         view.addSubview(webView)
         view.addSubview(progressView)
@@ -48,20 +53,6 @@ final class WebViewController: UIViewController, WebViewProtocol {
     private func configureUI() {
         view.backgroundColor = .white
 
-        let shareButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"),
-                                          style: .plain,
-                                          target: self,
-                                          action: #selector(shareInfo))
-        let backButton = UIBarButtonItem(title: "Back",
-                                         style: .plain,
-                                         target: self,
-                                         action: #selector(tappedBackButton))
-
-        navigationItem.setHidesBackButton(true, animated: false)
-        navigationItem.leftBarButtonItem = backButton
-        navigationItem.rightBarButtonItem = shareButton
-        navigationController?.hidesBarsOnSwipe = true
-        
         progressView.trackTintColor = .white
         progressView.translatesAutoresizingMaskIntoConstraints = false
 
@@ -69,6 +60,22 @@ final class WebViewController: UIViewController, WebViewProtocol {
         webView.addObserver(self, forKeyPath: #keyPath(WKWebView.estimatedProgress), options: .new, context: nil)
         webView.navigationDelegate = self
         webView.translatesAutoresizingMaskIntoConstraints = false
+    }
+
+    private func setupNavigationBar() {
+        let backButton = UIBarButtonItem(title: "Back",
+                                         style: .plain,
+                                         target: self,
+                                         action: #selector(tappedBackButton))
+        let shareButton = UIBarButtonItem(image: UIImage(systemName: "square.and.arrow.up"),
+                                          style: .plain,
+                                          target: self,
+                                          action: #selector(share))
+
+        navigationItem.setHidesBackButton(true, animated: false)
+        navigationItem.leftBarButtonItem = backButton
+        navigationItem.rightBarButtonItem = shareButton
+        navigationController?.hidesBarsOnSwipe = true
     }
 
     override func observeValue(forKeyPath keyPath: String?,
@@ -96,13 +103,12 @@ final class WebViewController: UIViewController, WebViewProtocol {
                 AlertManager.showAlert(AlertType.errorSaved, viewController: self)
             }
         }
-
         DispatchQueue.main.async() {
             self.present(activityViewController, animated: true, completion: nil)
         }
     }
 
-    @objc private func shareInfo() {
+    @objc private func share() {
         presenter?.share()
     }
 
@@ -111,6 +117,7 @@ final class WebViewController: UIViewController, WebViewProtocol {
     }
 }
 
+//MARK: - WKNavigationDelegate
 extension WebViewController: WKNavigationDelegate {
 
     func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {

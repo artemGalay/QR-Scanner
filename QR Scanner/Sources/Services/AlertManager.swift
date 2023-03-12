@@ -23,7 +23,6 @@ struct AlertType {
 }
 
 extension AlertType {
-
     static var successSaved = AlertType(title: "Поздравляем!",
                                        message: "Файл сохранен",
                                        actionText: "ОК")

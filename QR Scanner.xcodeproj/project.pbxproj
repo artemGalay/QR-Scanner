@@ -97,7 +97,7 @@
 			children = (
 				D955367729BBBC9F00E0BC25 /* Router */,
 				D955367A29BBBD7200E0BC25 /* ModuleBuilder */,
-				D955366E29BB4CFB00E0BC25 /* Managers */,
+				D955366E29BB4CFB00E0BC25 /* Services */,
 				D936448529B6872100F7CD41 /* App */,
 				D955366729B7A4BF00E0BC25 /* Modules */,
 			);
@@ -156,13 +156,13 @@
 			path = View;
 			sourceTree = "<group>";
 		};
-		D955366E29BB4CFB00E0BC25 /* Managers */ = {
+		D955366E29BB4CFB00E0BC25 /* Services */ = {
 			isa = PBXGroup;
 			children = (
 				D955366F29BB4D1100E0BC25 /* NetworkManager.swift */,
 				D955367129BB68FD00E0BC25 /* AlertManager.swift */,
 			);
-			path = Managers;
+			path = Services;
 			sourceTree = "<group>";
 		};
 		D955367329BBB85C00E0BC25 /* Presenter */ = {

@@ -6,13 +6,15 @@
 //
 
 import UIKit
-
+// MARK: - BuilderProtocol
 protocol BuilderProtocol {
     func createQrScannerModule(router: RouterProtocol) -> UIViewController
     func createWebViewModule(link: String, router: RouterProtocol) -> UIViewController
 }
 
 final class ModuleBuilder: BuilderProtocol {
+
+    // MARK: - Methods
     func createQrScannerModule(router: RouterProtocol) -> UIViewController {
         let view = QrScannerViewController()
         let presenter = QrScannerPresenter(view: view, router: router)
