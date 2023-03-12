@@ -95,10 +95,10 @@
 		D936448429B6871800F7CD41 /* Sources */ = {
 			isa = PBXGroup;
 			children = (
-				D955367729BBBC9F00E0BC25 /* Router */,
-				D955367A29BBBD7200E0BC25 /* ModuleBuilder */,
 				D955366E29BB4CFB00E0BC25 /* Services */,
 				D936448529B6872100F7CD41 /* App */,
+				D955367729BBBC9F00E0BC25 /* Router */,
+				D955367A29BBBD7200E0BC25 /* ModuleBuilder */,
 				D955366729B7A4BF00E0BC25 /* Modules */,
 			);
 			path = Sources;
