@@ -68,7 +68,7 @@ extension QrScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
             guard let stringUrl = object.stringValue else { return }
             print(object.stringValue ?? "")
             presenter?.showWebView(link: stringUrl)
+            session.stopRunning()
         }
-        session.stopRunning()
     }
 }

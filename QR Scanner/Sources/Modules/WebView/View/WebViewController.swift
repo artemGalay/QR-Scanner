@@ -26,6 +26,7 @@ final class WebViewController: UIViewController, WebViewProtocol {
         super.viewDidLoad()
         configureUI()
         setupNavigationBar()
+        setupToolBar()
         setupHierarchy()
         setupLayout()
         presenter?.loadRequest()
@@ -75,7 +76,22 @@ final class WebViewController: UIViewController, WebViewProtocol {
         navigationItem.setHidesBackButton(true, animated: false)
         navigationItem.leftBarButtonItem = backButton
         navigationItem.rightBarButtonItem = shareButton
-        navigationController?.hidesBarsOnSwipe = true
+    }
+
+    private func setupToolBar() {
+        let goBackButtonItem = UIBarButtonItem(barButtonSystemItem: .rewind,
+                                               target: webView,
+                                               action: #selector(webView.goBack))
+        let forwardButtonItem = UIBarButtonItem(barButtonSystemItem: .fastForward,
+                                                target: webView,
+                                                action: #selector(webView.goForward))
+        let refreshButtonItem = UIBarButtonItem(barButtonSystemItem: .refresh,
+                                                target: webView,
+                                                action: #selector(webView.reload))
+        let spacer = UIBarButtonItem(systemItem: .flexibleSpace)
+
+        toolbarItems = [goBackButtonItem, forwardButtonItem, spacer, refreshButtonItem]
+        navigationController?.isToolbarHidden = false
     }
 
     override func observeValue(forKeyPath keyPath: String?,
