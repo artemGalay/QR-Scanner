@@ -7,11 +7,11 @@
 
 import UIKit
 
-final class NetworkManager {
+protocol NetworkManagerProtocol {
+    func fetchData(url: String, completion: @escaping (Result<Data, Error>) -> Void)
+}
 
-    static let shared = NetworkManager()
-
-    private init() {}
+final class NetworkManager: NetworkManagerProtocol {
 
     func fetchData(url: String, completion: @escaping (Result<Data, Error>) -> Void) {
         guard let url = URL(string: url) else {

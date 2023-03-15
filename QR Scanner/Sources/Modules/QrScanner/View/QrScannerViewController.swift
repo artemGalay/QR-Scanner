@@ -8,14 +8,20 @@
 import AVFoundation
 import UIKit
 
-final class QrScannerViewController: UIViewController {
+// MARK: - QrScannerViewProtocol
+
+protocol QrScannerViewProtocol: AnyObject {}
+
+final class QrScannerViewController: UIViewController, QrScannerViewProtocol {
 
     // MARK: - Properties
+
     var presenter: QrScannerPresenter?
     private var video = AVCaptureVideoPreviewLayer()
     private let session = AVCaptureSession()
 
     // MARK: - Lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         setupVideo()
@@ -23,12 +29,13 @@ final class QrScannerViewController: UIViewController {
 
     override func viewWillAppear(_ animated: Bool) {
         super.viewWillAppear(animated)
-        DispatchQueue.global(qos: .background).async { [weak self] in
-            self?.session.startRunning()
+        DispatchQueue.global(qos: .background).async {
+            self.session.startRunning()
         }
     }
 
     // MARK: - Methods
+
     private func setupVideo() {
         guard let captureDevice = AVCaptureDevice.default(for: AVMediaType.video) else {
             fatalError("Camera is not found") }
@@ -56,6 +63,7 @@ final class QrScannerViewController: UIViewController {
 }
 
 // MARK: - AVCaptureMetadataOutputObjectsDelegate
+
 extension QrScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
 
     func metadataOutput(_ output: AVCaptureMetadataOutput,

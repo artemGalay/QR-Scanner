@@ -9,6 +9,7 @@ import UIKit
 import WebKit
 
 // MARK: - WebViewProtocol
+
 protocol WebViewProtocol: AnyObject {
     func loadRequest(request: URLRequest)
     func configureSaveFiles(data: Any)
@@ -17,11 +18,13 @@ protocol WebViewProtocol: AnyObject {
 final class WebViewController: UIViewController, WebViewProtocol {
 
     // MARK: - Properties
+
     var presenter: WebViewPresenterProtocol?
     private let webView = WKWebView()
     private let progressView = UIProgressView(progressViewStyle: .default)
 
     // MARK: - Lifecycle
+
     override func viewDidLoad() {
         super.viewDidLoad()
         configureUI()
@@ -33,6 +36,7 @@ final class WebViewController: UIViewController, WebViewProtocol {
     }
 
     // MARK: - Methods
+
     private func setupHierarchy() {
         view.addSubview(webView)
         view.addSubview(progressView)
@@ -134,6 +138,7 @@ final class WebViewController: UIViewController, WebViewProtocol {
 }
 
 //MARK: - WKNavigationDelegate
+
 extension WebViewController: WKNavigationDelegate {
 
     func webView(_ webView: WKWebView, didCommit navigation: WKNavigation!) {
