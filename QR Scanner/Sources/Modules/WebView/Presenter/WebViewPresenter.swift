@@ -8,6 +8,7 @@
 import Foundation
 
 // MARK: - WebViewPresenterProtocol
+
 protocol WebViewPresenterProtocol {
     func loadRequest()
     func share()
@@ -17,18 +18,23 @@ protocol WebViewPresenterProtocol {
 final class WebViewPresenter: WebViewPresenterProtocol {
 
     // MARK: - Properties
+    
     weak var view: WebViewProtocol?
     private var router: RouterProtocol?
+    private let networkManager: NetworkManagerProtocol?
     private var link: String
 
     //MARK: - Initialization
-    init(view: WebViewController, router: RouterProtocol, link: String) {
+
+    init(view: WebViewProtocol, router: RouterProtocol, networkManager: NetworkManagerProtocol, link: String) {
         self.view = view
         self.router = router
+        self.networkManager = networkManager
         self.link = link
     }
 
     // MARK: - Methods
+
     func loadRequest() {
         guard let url = URL(string: link) else { return }
         let urlRequest = URLRequest(url: url)
@@ -36,7 +42,7 @@ final class WebViewPresenter: WebViewPresenterProtocol {
     }
 
     func share() {
-        NetworkManager.shared.fetchData(url: link) { [weak self] result in
+        networkManager?.fetchData(url: link) { [weak self] result in
             switch result {
             case .success(let data):
                 self?.view?.configureSaveFiles(data: data)
