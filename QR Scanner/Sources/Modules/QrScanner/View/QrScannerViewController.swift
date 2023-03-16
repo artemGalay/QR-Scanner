@@ -38,7 +38,8 @@ final class QrScannerViewController: UIViewController, QrScannerViewProtocol {
 
     private func setupVideo() {
         guard let captureDevice = AVCaptureDevice.default(for: AVMediaType.video) else {
-            fatalError("Camera is not found") }
+            fatalError("Camera is not found")
+        }
         do {
             let input = try AVCaptureDeviceInput(device: captureDevice)
             session.addInput(input)
@@ -69,14 +70,12 @@ extension QrScannerViewController: AVCaptureMetadataOutputObjectsDelegate {
     func metadataOutput(_ output: AVCaptureMetadataOutput,
                         didOutput metadataObjects: [AVMetadataObject],
                         from connection: AVCaptureConnection) {
-        guard metadataObjects.count > 0 else { return }
-
-        guard let object = metadataObjects.first as? AVMetadataMachineReadableCodeObject else { return }
-        if object.type == AVMetadataObject.ObjectType.qr {
-            guard let stringUrl = object.stringValue else { return }
+        guard metadataObjects.count > 0,
+              let object = metadataObjects.first as? AVMetadataMachineReadableCodeObject,
+              object.type == AVMetadataObject.ObjectType.qr,
+              let stringUrl = object.stringValue else { return }
             print(object.stringValue ?? "")
             presenter?.showWebView(link: stringUrl)
             session.stopRunning()
-        }
     }
 }
